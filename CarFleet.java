@@ -1,9 +1,9 @@
 import java.util.*;
 public class CarFleet {
     public static void main(String[] args) {
-        int target=12;
-        int[] position={10,8,0,5,3};
-        int[] speed={2,4,1,1,3};
+        int target=10;
+        int[] position={0,4,2};
+        int[] speed={2,1,3};
 
         //Answer should be 3;
         System.out.println(carFleet(target,position,speed));
@@ -23,17 +23,22 @@ public class CarFleet {
 
             int speedCarFront = combined[i][1];
             int speedCarBack = combined[i+1][1];
+            //no need to check if this is true
+            if(speedCarBack <= speedCarFront) continue;
+
+            float timeFront = (float)(target-  combined[i][0]) /speedCarFront;
+
             int relativeSpeed = speedCarBack-speedCarFront;
             int positionDiff = combined[i][0]-combined[i+1][0];
-            if(speedCarBack > speedCarFront){
-                float timeFront = (float)(target-  combined[i][0]) /speedCarFront;
-                float catchTime = (float) positionDiff/relativeSpeed;
-                if(catchTime<=timeFront){
-                    fleetCount--;
-                }
 
+
+            float catchTime = (float) positionDiff/relativeSpeed;
+            if(catchTime<=timeFront){
+                fleetCount--;
             }
+
         }
+
 //        System.out.println(fleetCount);
         return fleetCount;
     }
