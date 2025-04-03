@@ -1,14 +1,13 @@
 package Tree;
 
+import javax.swing.*;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ConstructBinaryTreeFromPreorderInorderTraversal {
     private  Stack<Integer> st ;
+    private  int rootTracker=0;
     public static void main(String[] args) {
         int[] preorder = {3,9,20,15,7};
         int[] inorder = {9,3,15,20,7};
@@ -22,28 +21,21 @@ public class ConstructBinaryTreeFromPreorderInorderTraversal {
 
     public  TreeNode buildTree(int[] preorder, int[] inorder) {
         st = new Stack<>();
-        for(int i=preorder.length-1;i>=0;i--){
-            st.add(preorder[i]);
+        HashMap<Integer,Integer> inorderIndexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            inorderIndexMap.putIfAbsent(inorder[i],i);
         }
-        List<Integer> arr = Arrays.stream(inorder).boxed().toList();
-        return build(st,arr);
+        return build(preorder, inorderIndexMap,0,inorder.length-1);
     }
 
-    private  TreeNode build(Stack<Integer> st,List<Integer> arr) {
-        TreeNode root = new TreeNode(st.pop());
-        boolean rootFound = false;
-        List<Integer> left =new ArrayList<>();
-        List<Integer> right =new ArrayList<>();
-        for(int x: arr){
-            if(x==root.val) {
-                rootFound =true;
-                continue;
-            }
-            if(rootFound ) right.add(x);
-            else left.add(x);
-        }
-        if(!left.isEmpty()) root.left =build(st,left);
-        if(!right.isEmpty()) root.right = build(st,right);
+    private  TreeNode build(int[] preorder,  HashMap<Integer,Integer> inorderIndexMap, int left,int right) {
+        if(left>right) return null;
+
+        TreeNode root = new TreeNode(preorder[rootTracker++]);
+        int rootIndex = inorderIndexMap.get(root.val);
+
+        root.left = build(preorder,inorderIndexMap,left,rootIndex-1);
+        root.right = build(preorder,inorderIndexMap,rootIndex+1,right);
         return root;
     }
 }
