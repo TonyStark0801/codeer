@@ -1,3 +1,5 @@
+package Array;
+
 public class KokoEatingBananas {
     public static void main(String[] args) {
         int[] piles = {805306368,805306368,805306368};

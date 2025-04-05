@@ -1,4 +1,4 @@
-import java.util.Scanner;
+package Array;
 
 public class LargestRectangleInHistogram {
     public static void main(String[] args) {

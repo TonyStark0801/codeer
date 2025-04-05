@@ -1,3 +1,5 @@
+package Array;
+
 public class FindMinimumInRotatedSortedArray {
     public static void main(String[] args) {
         int[] nums = {11,13,15,17};
