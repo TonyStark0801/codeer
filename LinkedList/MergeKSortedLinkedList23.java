@@ -17,38 +17,68 @@ public class MergeKSortedLinkedList23 {
         ListNode l1 = ListNode.createLinkedList(new int[]{1,4,5});
         ListNode l2= ListNode.createLinkedList(new int[]{2,6,7});
         ListNode l3 = ListNode.createLinkedList(new int[]{2,6});
+        ListNode l4 = ListNode.createLinkedList(new int[]{0,4,5,6,8,9,11,15});
 
-        ListNode[] lists = new ListNode[]{l1,l2,l3};
+        ListNode[] lists = new ListNode[]{l1,l2,l3,l4};
         ListNode.printList(l1);
         ListNode.printList(l2);
         ListNode.printList(l3);
+        ListNode.printList(l4);
         System.out.println("---------");
-        ListNode.printList(mergeKLists(lists));
+        MergeKSortedLinkedList23 mass = new MergeKSortedLinkedList23();
+        ListNode.printList(mass.mergeKLists(lists));
 
     }
 
-    public static ListNode mergeKLists(ListNode[] lists) {
-        ListNode result = lists[0];
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists == null || lists.length == 0) return null;
+        return divideAndMerge(lists,0,lists.length-1);
 
-        for (int i = 1; i < lists.length ; i++) {
-            mergeToResult(result,lists[i]);
-        }
-        return result;
+
     }
 
-    public static void mergeToResult(ListNode res, ListNode list){
-        ListNode result = res;
-        while (result !=null && list!=null){
-            if(list.val < result.val){
-                ListNode temp = list.next;
-                list.next = result;
-                result.next = list;
-                list = temp;
-                result = result.next;
+
+    public  ListNode divideAndMerge(ListNode[] lists,  int start, int end){
+        if(start == end) return lists[start];
+
+        int mid  =  start +(end-start)/2;
+        ListNode left = divideAndMerge(lists, start, mid);
+        ListNode right = divideAndMerge(lists, mid + 1, end);
+
+        return mergeTwoLists(left, right);
+    }
+
+    public  ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode res = new ListNode(0);
+        ListNode cpy = res;
+        while(l1 !=null && l2 !=null){
+            if(l1.val<=l2.val){
+                cpy.next = l1;
+                l1 = l1.next;
             }
-            ListNode.printList(res);
+            else {
+                cpy.next = l2;
+                l2 = l2.next;
+            }
+
+            cpy = cpy.next;
         }
+
+        while(l1!=null){
+            cpy.next = l1;
+            l1 = l1.next;
+            cpy = cpy.next;
+        }
+        while(l2!=null){
+            cpy.next = l2;
+            l2 = l2.next;
+            cpy = cpy.next;
+        }
+
+        return res.next;
+
     }
+
 
 }
 
