@@ -16,6 +16,7 @@ boolean startsWith(String prefix) Returns true if there is a previously inserted
  */
 
 
+//TODO: NEED to be solved
 public class PrefixTree {
 
     public PrefixTree() {
@@ -27,11 +28,11 @@ public class PrefixTree {
     }
 
     public boolean search(String word) {
-
+        return  false;
     }
 
     public boolean startsWith(String prefix) {
-
+        return false;
     }
 
 }
